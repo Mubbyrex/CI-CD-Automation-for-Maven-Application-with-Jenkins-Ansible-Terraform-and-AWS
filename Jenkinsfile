@@ -17,16 +17,16 @@ pipeline {
             steps {
                 script {
                     gv.buildjar()
+                }
             }
-        }
         }
         stage("build and push image") {
             steps {
                 script {
                     gv.buildImage()
-                    }
                 }
             }
+        }
         stage('deploying the application...') {
             steps {
                 script {

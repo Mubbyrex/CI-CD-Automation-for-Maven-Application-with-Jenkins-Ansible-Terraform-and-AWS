@@ -16,7 +16,7 @@ pipeline {
             steps {
                 script {
                     echo "building docker image..."
-                    withCredentials([usernamePassword(crendentialsId: 'dockerhub',passwordVariable:'PASSWORD',usernameVariable:'USERNAME')]){
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub',passwordVariable:'PASSWORD',usernameVariable:'USERNAME')]){
                         sh 'docker build -t mubbyrex/jenkins-demo:jma-2.0 .'
                         sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
                         sh 'docker push mubbyrex/jenkins-demo:jma-2.0'

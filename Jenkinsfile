@@ -12,7 +12,6 @@ pipeline {
                 }
             }
         }
-    }
         stage("deploying the application...") {
             steps{
                 script {
@@ -20,4 +19,5 @@ pipeline {
                 }
             }
         }
+    }
 }

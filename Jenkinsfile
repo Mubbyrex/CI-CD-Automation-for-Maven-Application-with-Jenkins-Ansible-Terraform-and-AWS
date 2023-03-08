@@ -19,6 +19,7 @@ pipeline {
                     gv.buildjar()
             }
         }
+        }
         stage("build and push image") {
             steps {
                 script {
@@ -26,7 +27,6 @@ pipeline {
                     }
                 }
             }
-        }
         stage('deploying the application...') {
             steps {
                 script {

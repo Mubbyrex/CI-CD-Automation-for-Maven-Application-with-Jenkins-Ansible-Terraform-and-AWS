@@ -1,28 +1,23 @@
-
 pipeline {
-    agent none
+    agent any
+    tools {
+        maven 'Maven'
+    }
     stages {
-        stage('build') {
+        stage("build jar") {
             steps {
                 script {
-                    echo "Building the application..."
-                }
-            }
-        }
-        stage('test') {
-            steps {
-                script {
-                    echo "Testing the application..."
-                }
-            }
-        }
-        stage('deploy') {
-            steps {
-                script {
-                    echo "Deploying the application..."
+                    echo "building the application..."
+                    sh 'mvn package'
                 }
             }
         }
     }
+        stage("deploying the application...") {
+            steps{
+                script {
+                 echo 'deploying the app...'
+                }
+            }
+        }
 }
-

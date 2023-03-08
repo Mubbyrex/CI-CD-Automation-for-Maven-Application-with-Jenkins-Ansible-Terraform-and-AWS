@@ -2,7 +2,7 @@ pipeline {
     agent any
     tools {
         maven 'maven-3.9'
-    }
+    } 
     stages {
         stage("build jar") {
             steps {
@@ -16,11 +16,11 @@ pipeline {
             steps {
                 script {
                     echo "building docker image..."
-                    withCrendentials([usernamePassword(crendentialsId: 'dockerhub',passwordVariable:'PASSWORD',usernameVariable:'USERNAME')]){
+                    withCredentials([usernamePassword(crendentialsId: 'dockerhub',passwordVariable:'PASSWORD',usernameVariable:'USERNAME')]){
                         sh 'docker build -t mubbyrex/jenkins-demo:jma-2.0 .'
                         sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
                         sh 'docker push mubbyrex/jenkins-demo:jma-2.0'
-                    }  
+                    }
                 }
             }
         }

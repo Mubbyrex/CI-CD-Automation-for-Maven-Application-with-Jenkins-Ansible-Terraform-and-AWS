@@ -16,8 +16,7 @@ pipeline {
         stage("build jar") {
             steps {
                 script {
-                    echo "building the application..."
-                    sh 'mvn package'
+                    gv.buildjar
                 }
             }
         }

@@ -1,4 +1,10 @@
-@library('jenkins-shared-library')
+library identifier: 'jenkins-shared-library@main', retriever: modernSCM(
+        [$class: 'GitSCMSource',
+         remote: 'https://github.com/Mubbyrex/jenkins-shared-library',
+         credentialsId: 'github-login'
+        ]
+)
+
 def gv
 
 pipeline {

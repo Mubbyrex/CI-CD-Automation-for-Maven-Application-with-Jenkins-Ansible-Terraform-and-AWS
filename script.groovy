@@ -14,7 +14,7 @@ def buildImage() {
 
 def deployApp() {
     echo 'deploying the app....'
-    echo 'testing automatio'
+    echo 'testing automation.....'
 }
 
 return this

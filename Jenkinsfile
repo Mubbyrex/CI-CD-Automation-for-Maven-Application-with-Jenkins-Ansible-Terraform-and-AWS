@@ -48,5 +48,12 @@ pipeline {
                 }
             }
         }
+        stage('committing version to github') {
+            steps {
+                script {
+                    gv.commitVersion()
+                }
+            }
+        }
     }
 }

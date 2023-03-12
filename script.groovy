@@ -1,6 +1,6 @@
 def buildjar() {
     echo "building the application..."
-    sh 'mvn clear package'
+    sh 'mvn clean package'
 }
 
 def buildImage() {

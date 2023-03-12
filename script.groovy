@@ -1,14 +1,14 @@
 def buildjar() {
     echo "building the application..."
-    sh 'mvn package'
+    sh 'mvn clear package'
 }
 
 def buildImage() {
     echo "building docker image..."
     withCredentials([usernamePassword(credentialsId: 'Dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-        sh 'docker build -t mubbyrex/jenkins-demo:jma-4.0 .'
+        sh "docker build -t mubbyrex/jenkins-demo:${IMAGE_NAME} ."
         sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
-        sh 'docker push mubbyrex/jenkins-demo:jma-4.0'
+        sh "docker push mubbyrex/jenkins-demo:${IMAGE_NAME}"
     }
 }
 

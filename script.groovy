@@ -19,8 +19,8 @@ def deployApp() {
 
 def commitVersion() {
      withCredentials([usernamePassword(credentialsId: 'Github-login', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-        sh 'github config --global user.email "jenkins@example.com"'
-        sh 'github config --global user.name "jenkins"'
+        sh 'git config --global user.email "jenkins@example.com"'
+        sh 'git config --global user.name "jenkins"'
 
         sh "git remote set-url origin https://${USERNAME}:${PASSWORD}@github.com/Mubbyrex/Jenkins-Project.git"
         sh 'git add .'

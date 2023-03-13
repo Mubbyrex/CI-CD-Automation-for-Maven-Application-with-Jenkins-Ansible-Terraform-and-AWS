@@ -13,7 +13,7 @@ def buildImage() {
 }
 
 def deployApp() {
-    def dockerCmd='docker run -d -p 3080:80 mubbyrex/demo-project'
+    def dockerCmd='docker run -d -p 8080:8080 ${IMAGE_NAME}'
     sshagent(['AWS-instance']) {
     sh "ssh -o StrictHostKeyChecking=no ec2-user@34.205.174.181 ${dockerCmd}"
     }

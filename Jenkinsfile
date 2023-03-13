@@ -41,7 +41,7 @@ pipeline {
                 }
             }
         }
-        stage('deploying the application...') {
+        stage('deploying docker to AWS') {
             steps {
                 script {
                     gv.deployApp()

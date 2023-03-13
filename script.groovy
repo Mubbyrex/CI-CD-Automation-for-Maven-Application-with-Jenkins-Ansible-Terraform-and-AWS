@@ -13,8 +13,10 @@ def buildImage() {
 }
 
 def deployApp() {
-    echo 'deploying the app....'
-    echo 'testing automation....'
+    def dockerCmd='docker run -d -p 3080:80 mubbyrex/demo-project'
+    sshagent(['AWS-instance']) {
+    sh "ssh -o StrictHostKeyChecking=no ec2-user@34.205.174.181 ${dockerCmd}"
+    }
 }
 
 def commitVersion() {

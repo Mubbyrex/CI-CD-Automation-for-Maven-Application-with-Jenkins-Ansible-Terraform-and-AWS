@@ -13,10 +13,11 @@ def buildImage() {
 }
 
 def deployApp() {
-    def dockerComposeCmd="docker-compose -f docker-compose.yaml up --detach"
+    def shellCmd="bash ./shell-cmd.sh"
     sshagent(['AWS-instance']) {
+    sh "scp shell-cmd.sh ec2-user@34.205.174.181:/home/ec2-user"
     sh "scp docker-compose.yaml ec2-user@34.205.174.181:/home/ec2-user"
-    sh "ssh -o StrictHostKeyChecking=no ec2-user@34.205.174.181 ${dockerComposeCmd}"
+    sh "ssh -o StrictHostKeyChecking=no ec2-user@34.205.174.181 ${shellCmd}"
     }
 }
 

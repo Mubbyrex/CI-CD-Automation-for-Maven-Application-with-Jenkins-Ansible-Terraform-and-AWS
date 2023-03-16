@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   java-maven-app:
-    image: mubbyrex/jenkins-demo:1.1.13-24
+    image: mubbyrex/jenkins-demo:${IMAGE}
     ports:
       - 8080:8080
   postgres:

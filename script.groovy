@@ -13,7 +13,7 @@ def buildImage() {
 }
 
 def deployApp() {
-    def shellCmd="bash ./shell-cmd.sh"
+    def shellCmd="bash ./shell-cmd.sh ${IMAGE_NAME}"
     sshagent(['AWS-instance']) {
     sh "scp shell-cmd.sh ec2-user@34.205.174.181:/home/ec2-user"
     sh "scp docker-compose.yaml ec2-user@34.205.174.181:/home/ec2-user"

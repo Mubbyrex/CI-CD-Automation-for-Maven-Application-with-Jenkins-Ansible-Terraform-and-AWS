@@ -44,7 +44,7 @@ pipeline {
         stage('deploying docker to AWS') {
             steps {
                 script {
-                    gv.deployApp()
+                    gv.deploytoK8s()
                 }
             }
         }

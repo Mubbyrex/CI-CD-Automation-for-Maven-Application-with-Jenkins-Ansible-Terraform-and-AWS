@@ -12,7 +12,7 @@ def buildImage() {
     }
 }
 
-def deployApp() {
+def deployAppOnEC2() {
     def shellCmd="bash ./shell-cmd.sh ${IMAGE_NAME}"
     sshagent(['AWS-instance']) {
     sh "scp shell-cmd.sh ec2-user@34.205.174.181:/home/ec2-user"
@@ -21,8 +21,19 @@ def deployApp() {
     }
 }
 
+
+
+//function to deploy to k8s on linode cluster via jenkins
+def deploytoK8s() {
+     echo 'deploying docker image...'
+    withKubeConfig([credentialsId: 'lke-crendentials', serverUrl: 'https://160e3ecc-c960-463a-a788-a6f63d28eb91.us-southeast-1.linodelke.net:443']) {
+        sh 'envsubst < kubernetes/deployment.yaml | kubectl apply -f -'
+        sh 'envsubst < kubernetes/service.yaml | kubectl apply -f -'
+    }
+}
+
 def commitVersion() {
-     withCredentials([usernamePassword(credentialsId: 'github-login-PAT', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+     withCredentials([usernamePassword(credentialsId: 'github-pat', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
         sh 'git config --global user.email "jenkins@example.com"'
         sh 'git config --global user.name "jenkins"'
 

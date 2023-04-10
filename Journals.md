@@ -15,3 +15,4 @@ docker run -p 8080:8080 -p 50000:50000 -d -v jenkins_home:/var/jenkins_home -v /
 ```
 
 - give jenkins user in your docker container read and write permission of /var/run/docker.sock from the root user shell
+  i.e chmod 666 /var/run/docker.sock

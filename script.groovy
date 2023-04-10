@@ -28,7 +28,7 @@ def deploytoK8s() {
      echo 'deploying docker image...'
     withKubeConfig([credentialsId: 'lke-crendentials', serverUrl: 'https://160e3ecc-c960-463a-a788-a6f63d28eb91.us-southeast-1.linodelke.net:443']) {
         sh 'envsubst < kubernetes/deployment.yaml | kubectl apply -f -'
-        sh 'envsubst < kubernetes/service.yaml | kubectl apply -f -'
+        sh 'envsubst < kubernetes/services.yaml | kubectl apply -f -'
     }
 }
 

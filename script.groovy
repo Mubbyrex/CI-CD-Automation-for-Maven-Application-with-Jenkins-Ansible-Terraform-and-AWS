@@ -14,10 +14,11 @@ def buildImage() {
 
 def deployAppOnEC2() {
     def shellCmd="bash ./shell-cmd.sh ${IMAGE_NAME}"
+    def ec2_instance = ${EC2_PUBLIC_IP}
     sshagent(['AWS-instance']) {
-    sh "scp shell-cmd.sh ec2-user@34.205.174.181:/home/ec2-user"
-    sh "scp docker-compose.yaml ec2-user@34.205.174.181:/home/ec2-user"
-    sh "ssh -o StrictHostKeyChecking=no ec2-user@34.205.174.181 ${shellCmd}"
+    sh "scp -o StrictHostKeyChecking=no shell-cmd.sh ${ec2_instance}:/home/ec2-user"
+    sh "scp -o StrictHostKeyChecking=no docker-compose.yaml ${ec2_instance}:/home/ec2-user"
+    sh "ssh -o StrictHostKeyChecking=no ${ec2_instance} ${shellCmd}"
     }
 }
 

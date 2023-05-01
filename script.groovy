@@ -23,7 +23,7 @@ def buildImage() {
 }
 
 def deployAppOnEC2() {
-    def shellCmd="bash ./shell-cmd.sh ${IMAGE_NAME}"
+    def shellCmd="bash ./shell-cmd.sh ${IMAGE_NAME} ${DOCKER_CREDS_USR} ${DOCKER_CREDS_PSW} "
     def ec2_instance = ${EC2_PUBLIC_IP}
     sshagent(['AWS-instance']) {
     sh "scp -o StrictHostKeyChecking=no shell-cmd.sh ${ec2_instance}:/home/ec2-user"
@@ -57,12 +57,12 @@ def commitVersion() {
 
 def provisionServer() {
     dir('terraform') {
-    sh "terraform init"
-    sh "terraform apply --auto-approve"
-    EC2_PUBLIC_IP = sh(
-        script: "terraform output ec2_public_ip",
-        returnStdout: true
-    ).trim()
+        sh "terraform init"
+        sh "terraform apply --auto-approve"
+        EC2_PUBLIC_IP = sh(
+            script: "terraform output ec2_public_ip",
+            returnStdout: true
+        ).trim()
 }
 }
 

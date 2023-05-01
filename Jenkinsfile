@@ -50,11 +50,14 @@ pipeline {
         }
 
 // give your instance time to boot up before deployment
-        stage('deploying docker to Kubernetes') {
+        stage('Provisioning and deploying to EC2') {
+            environment {
+                DOCKER_CREDS = credentials('Dockerhub')
+            }
             steps {
                 script {
                     sleep(secs: 90, unit: 'SECONDS')
-                    gv.deploytoK8s()
+                    gv.deployAppOnEC2()
                 }
             }
         }

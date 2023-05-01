@@ -3,6 +3,16 @@ def buildjar() {
     sh 'mvn clean package'
 }
 
+def incrementVersion() {
+    echo 'increasing the app version...'
+    sh 'mvn build-helper:parse-version versions:set \
+        -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} \
+        versions:commit'
+    def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
+    def version = matcher[0][1]
+    env.IMAGE_NAME = "$version-$BUILD_NUMBER"
+}
+
 def buildImage() {
     echo "building docker image..."
     withCredentials([usernamePassword(credentialsId: 'Dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
@@ -43,6 +53,17 @@ def commitVersion() {
         sh 'git commit -m "ci: version bump"'
         sh 'git push origin HEAD:main'
      }
+}
+
+def provisionServer() {
+    dir('terraform') {
+    sh "terraform init"
+    sh "terraform apply --auto-approve"
+    EC2_PUBLIC_IP = sh(
+        script: "terraform output ec2_public_ip",
+        returnStdout: true
+    ).trim()
+}
 }
 
 return this

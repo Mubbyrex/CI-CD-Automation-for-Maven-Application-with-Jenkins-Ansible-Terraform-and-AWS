@@ -1,9 +1,8 @@
 variable vpc_cidr_block {}
-variable subnet_cidr_block{}
 variable availability_zone{}
 variable env_var{}
-variable "instance_type" {}
-variable "private_key_location" { 
-}
+variable "my_ip" {}
+variable "jenkins_ip" {}
 variable "ami_name" {}
-variable "key_name" {}
+variable "private_subnet_cidr_blocks" {}
+variable "public_subnet_cidr_blocks" {}

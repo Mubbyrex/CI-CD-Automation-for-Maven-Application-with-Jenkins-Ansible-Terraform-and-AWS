@@ -1,0 +1,66 @@
+---
+- name: wait for ssh to be available
+  hosts: all
+  become: yes
+  tasks:
+    - name: wait for ssh to be available
+      wait_for:
+        port: 22
+        host: "{{ ansible_host }}"
+        delay: 10
+        timeout: 320
+        search_regex: OpenSSH
+
+- name: Install Docker
+  hosts: all
+  become: yes
+  tasks:
+    - name: Upgrade all packages
+      ansible.builtin.yum:
+        name: "*"
+        state: latest
+    - name: Install Docker
+      ansible.builtin.yum:
+        name: docker
+        state: latest
+
+- name: Install Docker compose
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install Docker compose
+      get_url:
+        url: https://github.com/docker/compose/releases/latest/download/docker-compose-{{lookup('pipe', 'uname -s')}}-{{lookup('pipe', 'uname -m')}}
+        dest: /usr/local/bin/docker-compose
+        mode: +x
+
+- name: Start Docker service
+  hosts: all
+  become: yes
+  tasks:
+    - name: Start Docker service
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+    - name: add ec2-user to docker group
+      user:
+        name: ec2-user
+        groups: docker
+        append: yes
+    - name: Reconnect to server session
+      meta: reset_connection
+
+- name: Start docker container
+  hosts: all
+  vars_files:
+    - variables.yaml
+  tasks:
+    - name: Copy docker-compose.yml file
+      copy:
+        src: /workspaces/Jenkins-Project/docker-compose.yaml
+        dest: /home/ec2-user/docker-compose.yaml
+    - name: Docker login
+      command: docker login -u {{docker_username}} -p {{docker_password}}
+    - name: Start docker container
+      command: docker-compose -f /home/ec2-user/docker-compose.yaml up -d

@@ -3,3 +3,5 @@ jenkins-kubeconfig.yaml
 terraform/terraform.tfstate.backup
 terraform/terraform.tfstate
 terraform/*.terraform.lock.hcl
+Terraform_hands_on.pem
+ansible/hosts

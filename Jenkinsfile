@@ -25,7 +25,7 @@ pipeline {
                     def remote = [:]
                     remote.name = 'ansible-server'
                     remote.host = '139.144.60.105'
-                    remote.alwaysAnyHost = true
+                    remote.allowAnyHosts = true
 
                     withCredentials([sshUserPrivateKey(credentialsId: 'ansible-server-key', keyFileVariable: 'keyfile', usernameVariable: 'user')]) {
                         remote.user = user
@@ -35,8 +35,6 @@ pipeline {
                 }
  
             }
-
-
         }
     }
 }

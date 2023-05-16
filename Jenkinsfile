@@ -1,6 +1,6 @@
 pipeline {
     agent any
-ages {
+    stages {
         stage("Copy jenkinsfile") {
             steps{
                 script {

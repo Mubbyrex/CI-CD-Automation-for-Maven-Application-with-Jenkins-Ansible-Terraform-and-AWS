@@ -1,9 +1,6 @@
 pipeline {
     agent any
-    tools {
-        maven 'maven'
-    } 
-    stages {
+ages {
         stage("Copy jenkinsfile") {
             steps{
                 script {

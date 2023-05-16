@@ -25,3 +25,4 @@ docker run -p 8080:8080 -p 50000:50000 -d -v jenkins_home:/var/jenkins_home -v /
 - Kubernetes CLI Plugin Version1.12.0
 - Maven Integration plugin Version3.21
 - SSH Agent
+- SSH Pipeline steps

@@ -11,7 +11,6 @@ pipeline {
                         // copy the ssh key from ec2 server to ansible server
                         withCredentials([sshUserPrivateKey(credentialsId: 'ec2-server-key', keyFileVariable: 'keyfile', usernameVariable: 'user')]) {
                             sh 'scp $keyfile root@139.144.60.105:/root/ssh-key.pem'
-                            sh 'ls -a'
                         }
 
                     }
@@ -19,10 +18,15 @@ pipeline {
             }
         }
 
-        // stage("Excute ansible playbook"){
-        //     steps{
-        //         script {
-        //             echo"Excute ansible playbook to configure ec2 server"
+        stage("Excute ansible playbook"){
+            steps{
+                script {
+                    echo"Excute ansible playbook to configure ec2 server"
+                    sshagent(['ansible-server-key']){
+                        withCredentials([sshUserPrivateKey(credentialsId: 'ec2-server-key', keyFileVariable: 'keyfile', usernameVariable: 'user')]) {
+                            sh 'ls -l'
+                        }
+                    }
         //             def remote = [:]
         //             remote.name = 'ansible-server'
         //             remote.host = '139.144.60.105'
@@ -35,8 +39,9 @@ pipeline {
         //             // }
                     
         //         }
+            
  
-        //     }
-        // }
+            }
+        }
     }
 }

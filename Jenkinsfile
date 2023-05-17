@@ -24,7 +24,7 @@ pipeline {
                     echo"Excute ansible playbook to configure ec2 server"
                     sshagent(['ansible-server-key']){
                         withCredentials([sshUserPrivateKey(credentialsId: 'ec2-server-key', keyFileVariable: 'keyfile', usernameVariable: 'user')]) {
-                            sh 'ls -l'
+                            sh 'ansible-playbook my-playbook.yaml'
                         }
                     }
                 }

@@ -6,7 +6,7 @@
     - name: wait for ssh to be available
       wait_for:
         port: 22
-        host: "{{ ansible_host }}"
+        host: "{{ansible_host}}"
         delay: 10
         timeout: 320
         search_regex: OpenSSH
@@ -51,16 +51,16 @@
     - name: Reconnect to server session
       meta: reset_connection
 
-- name: Start docker container
-  hosts: all
-  vars_files:
-    - variables.yaml
-  tasks:
-    - name: Copy docker-compose.yml file
-      copy:
-        src: /workspaces/Jenkins-Project/docker-compose.yaml
-        dest: /home/ec2-user/docker-compose.yaml
-    - name: Docker login
-      command: docker login -u {{docker_username}} -p {{docker_password}}
-    - name: Start docker container
-      command: docker-compose -f /home/ec2-user/docker-compose.yaml up -d
+# - name: Start docker container
+#   hosts: all
+#   vars_files:
+#     - variables.yaml
+#   tasks:
+#     - name: Copy docker-compose.yml file
+#       copy:
+#         src: /workspaces/Jenkins-Project/docker-compose.yaml
+#         dest: /home/ec2-user/docker-compose.yaml
+#     - name: Docker login
+#       command: docker login -u {{docker_username}} -p {{docker_password}}
+#     - name: Start docker container
+#       command: docker-compose -f /home/ec2-user/docker-compose.yaml up -d

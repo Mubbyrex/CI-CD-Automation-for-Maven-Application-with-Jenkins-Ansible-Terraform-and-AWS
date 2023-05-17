@@ -27,20 +27,7 @@ pipeline {
                             sh 'ls -l'
                         }
                     }
-        //             def remote = [:]
-        //             remote.name = 'ansible-server'
-        //             remote.host = '139.144.60.105'
-        //             remote.allowAnyHosts = true
-
-        //             // withCredentials([sshUserPrivateKey(credentialsId: 'ansible-server-key', keyFileVariable: 'keyfile', usernameVariable: 'user')]) {
-        //             //     remote.user = user
-        //             //     remote.identityFile = keyfile
-        //             //     sshCommand remote: remote, command: "ls -l"
-        //             // }
-                    
-        //         }
-            
- 
+                }
             }
         }
     }

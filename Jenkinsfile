@@ -11,7 +11,7 @@ pipeline {
                         // copy the ssh key from ec2 server to ansible server
                         withCredentials([sshUserPrivateKey(credentialsId: 'ec2-server-key', keyFileVariable: 'keyfile', usernameVariable: 'user')]) {
                             sh 'scp $keyfile root@139.144.60.105:/root/ssh-key.pem'
-                            sh 'chmod 400 /root/Terraform_hands_on.pem'
+                            sh 'chmod 400 /root/ssh-key.pem'
                         }
 
                     }
@@ -25,7 +25,7 @@ pipeline {
                     echo"Excute ansible playbook to configure ec2 server"
                     sshagent(['ansible-server-key']){
                         withCredentials([sshUserPrivateKey(credentialsId: 'ec2-server-key', keyFileVariable: 'keyfile', usernameVariable: 'user')]) {
-                            sh 'ansible-playbook my-playbook.yaml'
+                            sh 'ansible-playbook --private-key ssh-key.pem my-playbook.yaml'
                         }
                     }
                 }

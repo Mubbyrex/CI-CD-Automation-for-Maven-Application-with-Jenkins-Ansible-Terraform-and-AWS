@@ -11,7 +11,6 @@ pipeline {
                         // copy the ssh key from ec2 server to ansible server
                         withCredentials([sshUserPrivateKey(credentialsId: 'ec2-server-key', keyFileVariable: 'keyfile', usernameVariable: 'user')]) {
                             sh 'scp $keyfile root@139.144.60.105:/root/ssh-key.pem'
-                            sh 'scp ~/.aws/credentials root@139.144.60.105:/root/.aws/credentials'
                             sh 'chmod 400 /root/Terraform_hands_on.pem'
                         }
 

@@ -22,27 +22,19 @@ pipeline {
             steps{
                 script {
                     echo "calling ansible playbook to configure ec2 instances"
-                    sshagent(['ansible-server-key']){
-                        sh '''
-                            ssh -o StrictHostKeyChecking=no root@139.144.60.105
-                            ls -l
-                        '''
+                    withCredentials([sshUserPrivateKey(credentialsId: 'ansible-server-key', keyFileVariable: 'keyfile', usernameVariable: 'user')]) {
+                        sshagent(['ansible-server-key']) {
+                            def remote = [:]
+                            remote.name = "ansible-server"
+                            remote.host = "139.144.60.105"
+                            remote.user = user
+                            remote.identityFile = keyfile
+
+                            sh "ssh ${remote.user}@${remote.host} ls -l"
                         }
-
-                    }
-                    // def remote = [:]
-                    // remote.name = "ansible-server"
-                    // remote.host = "139.144.60.105"
-                    // remote.allowAnyHosts = true
-
-                    // withCredentials([sshUserPrivateKey(credentialsId: 'ansible-server-key', keyFileVariable: 'keyfile', usernameVariable: 'user')]){
-                    //     remote.user = user
-                    //     remote.identityFile = keyfile
-                    //     sshCommand remote: remote, command: "ls -l"
-                    // }
-
+                    }                   
                 }
             }
-        // }
+        }
     }
 }

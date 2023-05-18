@@ -34,8 +34,6 @@ pipeline {
                         sshCommand remote: remote, command: "ansible-playbook my-playbook.yaml"
                     }
 
-                        }
-                    }
                 }
             }
         }

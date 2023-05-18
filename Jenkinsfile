@@ -24,6 +24,7 @@ pipeline {
                     echo "calling ansible playbook to configure ec2 instances"
                     sshagent(['ansible-server-key']){
                         sh '''
+                            ssh -o StrictHostKeyChecking=no root@139.144.60.105
                             ls -l
                         '''
                         }

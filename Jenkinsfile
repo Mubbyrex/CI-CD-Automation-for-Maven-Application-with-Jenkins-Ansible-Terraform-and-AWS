@@ -30,6 +30,7 @@ pipeline {
                             remote.user = user
                             remote.identityFile = keyfile
 
+                            sh "ssh -i ${remote.identityFile} ${remote.user}@${remote.host} 'chmod +x ~/script.sh && ./script.sh'"
                             sh "ssh ${remote.user}@${remote.host} ansible-playbook my-playbook.yaml"
                         }
                     }                   

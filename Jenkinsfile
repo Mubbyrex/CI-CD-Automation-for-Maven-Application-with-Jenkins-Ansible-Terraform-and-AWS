@@ -1,10 +1,18 @@
+#!/usr/bin/env groovy
+
 def gv
+
 pipeline {
     agent any
     tools {
-        maven 'maven'
-    } 
+        maven 'Maven'
+    }
+    environment {
+        IMAGE_NAME = 'mubbyrex/maven-app:1.1'
+        EC2_PUBLIC_IP = '3.93.47.171'
+    }
     stages {
+        stages {
         stage("init") {
             steps {
                 script {
@@ -13,57 +21,28 @@ pipeline {
             }
         }
 
-        stage('increment version') {
+        stage('build jar') {
+            steps {
+               script {
+                  echo 'building application jar...'
+                  gv.buildjar()
+               }
+            }
+        }
+        stage('build image') {
             steps {
                 script {
-                    gv.incrementVersion()
+                   gv.buildImage()
                 }
             }
         }
-
-        stage("build jar") {
+        stage('deploy') {
             steps {
                 script {
-                    gv.buildjar()
-                }
-            }
-        }
-        stage("build and push image") {
-            steps {
-                script {
-                    gv.buildImage()
-                }
-            }
-        }
-
-        stage('provision server') {
-            environment {
-                AWS_ACCESS_KEY_ID = credentials('jenkins_aws_access_key_id')
-                AWS_SECRET_ACCESS_KEY = credentials('jenkins_aws_secret_access_key')
-                TF_VAR_env_prefix = 'test'
-            }
-            steps {
-                script {
-                    gv.provisionServer()
-                }
-            }
-        }
-
-// give your instance time to boot up before deployment
-        stage('deploying docker to Kubernetes') {
-            steps {
-                script {
-                    sleep(secs: 90, unit: 'SECONDS')
-                    gv.deploytoK8s()
-                }
-            }
-        }
-        stage('committing version to github') {
-            steps {
-                script {
-                    gv.commitVersion()
+                  gv.deployAppOnEC2
                 }
             }
         }
     }
+}
 }

@@ -12,7 +12,6 @@ pipeline {
         EC2_PUBLIC_IP = '3.93.47.171'
     }
     stages {
-        stages {
         stage("init") {
             steps {
                 script {
@@ -44,5 +43,4 @@ pipeline {
             }
         }
     }
-}
 }

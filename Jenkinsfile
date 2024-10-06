@@ -38,7 +38,7 @@ pipeline {
         stage('deploy') {
             steps {
                 script {
-                  gv.deployAppOnEC2
+                  gv.deployAppOnEC2()
                 }
             }
         }

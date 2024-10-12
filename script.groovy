@@ -1,6 +1,6 @@
 def buildjar() {
     echo "building the application..."
-    // sh 'mvn clean package'
+    sh 'mvn clean package'
 }
 
 def buildImage() {
@@ -19,6 +19,11 @@ def deployAppOnEC2() {
     sh "scp -o StrictHostKeyChecking=no docker-compose.yaml ec2-user@${EC2_PUBLIC_IP}:/home/ec2-user"
     sh "ssh -o StrictHostKeyChecking=no ec2-user@${EC2_PUBLIC_IP} ${shellCmd}"
     }
+}
+
+def deployAppOnK8s(){
+    echo 'deploying docker image...'
+    sh 'kubectl create deployment nginx-deployment --image=nginx'
 }
 
 return this

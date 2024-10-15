@@ -28,18 +28,18 @@ def incrementVersion() {
         versions:commit'
     def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
     def version = matcher[0][1]
-    env.IMAGE_NAME = "$version-$BUILD_NUMBER"
+    env.IMAGE_VERSION = "$version-$BUILD_NUMBER"
 }
 
 def commitVersion() {
-     withCredentials([usernamePassword(credentialsId: 'github-pat', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+     withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
         sh 'git config --global user.email "jenkins@example.com"'
         sh 'git config --global user.name "jenkins"'
 
         sh "git remote set-url origin https://${USERNAME}:${PASSWORD}@github.com/Mubbyrex/Jenkins-Project.git"
         sh 'git add .'
         sh 'git commit -m "ci: version bump"'
-        sh 'git push origin HEAD:main'
+        sh 'git push origin HEAD:ec2'
      }
 }
 

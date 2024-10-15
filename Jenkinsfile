@@ -9,7 +9,7 @@ pipeline {
     }
     environment {
         IMAGE_NAME = 'mubbyrex/maven-app:1.1'
-        EC2_PUBLIC_IP = 'ec2-18-156-135-116.eu-central-1.compute.amazonaws.com'
+        EC2_PUBLIC_IP = 'ec2-18-196-216-87.eu-central-1.compute.amazonaws.com'
     }
     stages {
         stage("init") {

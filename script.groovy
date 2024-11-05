@@ -14,7 +14,7 @@ def buildImage() {
 
 def deployAppOnEC2() {
     def shellCmd="bash ./shell-cmd.sh ${IMAGE_NAME}"
-    sshagent(['aws']) {
+    sshagent(['ec2_App_server']) {
     sh "scp -o StrictHostKeyChecking=no shell-cmd.sh ec2-user@${EC2_PUBLIC_IP}:/home/ec2-user"
     sh "scp -o StrictHostKeyChecking=no docker-compose.yaml ec2-user@${EC2_PUBLIC_IP}:/home/ec2-user"
     sh "ssh -o StrictHostKeyChecking=no ec2-user@${EC2_PUBLIC_IP} ${shellCmd}"
@@ -44,8 +44,10 @@ def commitVersion() {
 }
 
 def deployAppOnK8s(){
-    echo 'deploying docker image...'
-    sh 'kubectl create deployment nginx-deployment --image=nginx'
+        echo 'deploying docker image...'
+        sh 'envsubst < kubernetes/deployment.yaml | kubectl apply -f -'
+        sh 'envsubst < kubernetes/service.yaml | kubectl apply -f -'
+
 }
 
 return this

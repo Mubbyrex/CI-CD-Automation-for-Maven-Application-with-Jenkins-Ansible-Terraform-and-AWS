@@ -8,7 +8,6 @@ pipeline {
         maven 'Maven'
     }
     environment {
-        IMAGE_NAME = "mubbyrex/maven-app:${IMAGE_VERSION}"
         EC2_PUBLIC_IP = 'ec2-18-197-17-66.eu-central-1.compute.amazonaws.com'
     }
     stages {
@@ -24,6 +23,7 @@ pipeline {
         stage('increment version') {
             steps {
                 script {
+                    env.IMAGE_NAME = "mubbyrex/maven-app:${env.IMAGE_VERSION}"
                     gv.incrementVersion()
                 }
             }

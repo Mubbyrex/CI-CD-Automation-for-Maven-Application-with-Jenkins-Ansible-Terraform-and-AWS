@@ -23,7 +23,6 @@ pipeline {
         stage('increment version') {
             steps {
                 script {
-                    env.IMAGE_NAME = "mubbyrex/maven-app:${env.IMAGE_VERSION}"
                     gv.incrementVersion()
                 }
             }
@@ -40,6 +39,7 @@ pipeline {
         stage('build image') {
             steps {
                 script {
+                   env.IMAGE_NAME = "mubbyrex/maven-app:${env.IMAGE_VERSION}"
                    gv.buildImage()
                 }
             }
